@@ -5,7 +5,7 @@
 get_header(); ?>
 
 <div class="page-hero">
-  <div class="container">
+  <div class="wrap">
     <p class="page-hero-tag">Nous soutenir</p>
     <h1>Rejoignez l'OCA</h1>
     <p>Adhérez, faites un don ou devenez bénévole de veille. L'OCA est indépendant parce que vous le financez.</p>
@@ -17,7 +17,7 @@ get_header(); ?>
 
   <!-- Pourquoi adhérer -->
   <section class="section">
-    <div class="container">
+    <div class="wrap">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
         <div>
           <div class="section-header">
@@ -79,7 +79,7 @@ get_header(); ?>
 
   <!-- HelloAsso adhésion + don -->
   <section class="section section--gray">
-    <div class="container">
+    <div class="wrap">
       <div class="section-header section-header--center">
         <span class="section-tag">Action</span>
         <h2 class="section-title">Adhérer ou faire un don</h2>
@@ -130,7 +130,7 @@ get_header(); ?>
 
   <!-- Bénévolat de veille -->
   <section class="section">
-    <div class="container container--narrow">
+    <div class="wrap wrap--sm">
       <div class="section-header section-header--center">
         <span class="section-tag">Bénévolat</span>
         <h2 class="section-title">Devenir bénévole de veille</h2>
@@ -171,7 +171,7 @@ get_header(); ?>
 
   <!-- Formulaire adhésion complet (WPForms) -->
   <section class="section section--gray">
-    <div class="container container--narrow">
+    <div class="wrap wrap--sm">
       <div class="section-header section-header--center">
         <span class="section-tag">Formulaire loi 1901</span>
         <h2 class="section-title">Formulaire d'adhésion</h2>

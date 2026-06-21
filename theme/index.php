@@ -8,7 +8,7 @@
     <div class="accent-bar"></div>
 
     <section style="padding:4rem 0; background:var(--oca-light);">
-      <div class="container">
+      <div class="wrap">
         <h2 class="section-title"><?php esc_html_e('Dernières actualités', 'oca-theme'); ?></h2>
         <p class="section-subtitle"><?php esc_html_e('Toute l\'actualité de l\'audiovisuel citoyen', 'oca-theme'); ?></p>
 
@@ -29,7 +29,7 @@
 
   <?php else: ?>
     <!-- Blog / archive -->
-    <div class="container" style="padding:3rem 1.5rem;">
+    <div class="wrap" style="padding:3rem 1.5rem;">
       <div style="display:grid; grid-template-columns:1fr 300px; gap:2.5rem; align-items:start;">
 
         <div>

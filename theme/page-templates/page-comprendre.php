@@ -5,7 +5,7 @@
 get_header(); ?>
 
 <div class="page-hero">
-  <div class="container">
+  <div class="wrap">
     <p class="page-hero-tag">Nos actions — Comprendre</p>
     <h1>Pourquoi réguler l'audiovisuel ?</h1>
     <p>Comprendre les conventions ARCOM, les pouvoirs du régulateur et la carte des groupes TNT.</p>
@@ -17,7 +17,7 @@ get_header(); ?>
 
   <!-- Explainer ARCOM -->
   <section class="section">
-    <div class="container">
+    <div class="wrap">
       <div class="section-header">
         <span class="section-tag">Pédagogie</span>
         <h2 class="section-title">Les conventions ARCOM</h2>
@@ -53,7 +53,7 @@ get_header(); ?>
 
   <!-- Ce que peut/ne peut pas faire l'ARCOM -->
   <section class="section section--gray">
-    <div class="container">
+    <div class="wrap">
       <div class="section-header section-header--center">
         <h2 class="section-title">Les pouvoirs de l'ARCOM</h2>
       </div>
@@ -109,7 +109,7 @@ get_header(); ?>
 
   <!-- Carte TNT -->
   <section class="section">
-    <div class="container">
+    <div class="wrap">
       <div class="section-header">
         <span class="section-tag">Cartographie</span>
         <h2 class="section-title">Carte interactive des groupes TNT</h2>
@@ -170,7 +170,7 @@ get_header(); ?>
 
   <!-- Newsletter -->
   <section class="section section--dark">
-    <div class="container">
+    <div class="wrap">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
         <div>
           <span class="section-tag" style="color:var(--cyan);">Newsletter mensuelle</span>

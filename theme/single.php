@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 <div class="page-hero" style="padding:2.5rem 0;">
-  <div class="container">
+  <div class="wrap">
     <p class="page-hero-tag">
       <?php
       $cats = get_the_category();
@@ -17,7 +17,7 @@
 <div class="accent-bar"></div>
 
 <main id="primary">
-  <div class="container" style="padding:3rem 1.5rem;">
+  <div class="wrap" style="padding:3rem 1.5rem;">
     <div style="display:grid; grid-template-columns:1fr 280px; gap:3rem; align-items:start; max-width:1100px; margin:0 auto;">
 
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

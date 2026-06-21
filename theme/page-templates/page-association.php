@@ -5,7 +5,7 @@
 get_header(); ?>
 
 <div class="page-hero">
-  <div class="container">
+  <div class="wrap">
     <p class="page-hero-tag">Qui sommes-nous</p>
     <h1>L'Observatoire Citoyen de l'Audiovisuel</h1>
     <p>Association loi 1901 de veille citoyenne sur la régulation audiovisuelle française</p>
@@ -17,7 +17,7 @@ get_header(); ?>
 
   <!-- Mission -->
   <section class="section">
-    <div class="container">
+    <div class="wrap">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
         <div>
           <div class="section-header">
@@ -70,7 +70,7 @@ get_header(); ?>
 
   <!-- Mot du président -->
   <section class="section section--gray">
-    <div class="container container--narrow">
+    <div class="wrap wrap--sm">
       <div class="section-header section-header--center">
         <span class="section-tag">Éditorial</span>
         <h2 class="section-title">Mot du président</h2>
@@ -97,7 +97,7 @@ get_header(); ?>
 
   <!-- Bureau -->
   <section class="section">
-    <div class="container">
+    <div class="wrap">
       <div class="section-header section-header--center">
         <span class="section-tag">Gouvernance</span>
         <h2 class="section-title">Le bureau</h2>
@@ -126,7 +126,7 @@ get_header(); ?>
 
   <!-- Documents -->
   <section class="section section--gray">
-    <div class="container container--narrow">
+    <div class="wrap wrap--sm">
       <div class="section-header">
         <span class="section-tag">Transparence</span>
         <h2 class="section-title">Documents officiels</h2>
@@ -157,7 +157,7 @@ get_header(); ?>
 
   <!-- Adresse -->
   <section class="section">
-    <div class="container container--narrow" style="text-align:center;">
+    <div class="wrap wrap--sm" style="text-align:center;">
       <span class="section-tag">Localisation</span>
       <h2 class="section-title" style="margin:0 auto .75rem;">Siège social</h2>
       <div style="background:var(--marine-10); border-radius:var(--r-lg); padding:1.5rem; display:inline-block; margin-top:1rem;">

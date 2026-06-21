@@ -5,7 +5,7 @@
 get_header(); ?>
 
 <div class="page-hero">
-  <div class="container">
+  <div class="wrap">
     <p class="page-hero-tag">Nos actions — Signaler</p>
     <h1>Tableau de bord des signalements</h1>
     <p>Infractions documentées semaine par semaine, dossiers transmis à l'ARCOM et statuts de traitement.</p>
@@ -17,7 +17,7 @@ get_header(); ?>
 
   <!-- KPIs hebdomadaires -->
   <div class="kpi-band">
-    <div class="container">
+    <div class="wrap">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
         <span style="font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:rgba(255,255,255,.4); font-weight:600;">
           Semaine en cours — <?php echo esc_html(get_option('oca_kpi_updated', 'mise à jour chaque lundi')); ?>
@@ -52,7 +52,7 @@ get_header(); ?>
 
   <!-- Répartition par type -->
   <section class="section">
-    <div class="container">
+    <div class="wrap">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;">
 
         <div>
@@ -132,7 +132,7 @@ get_header(); ?>
 
   <!-- Liste des infractions documentées -->
   <section class="section section--gray">
-    <div class="container">
+    <div class="wrap">
       <div class="section-header">
         <span class="section-tag">Documentation</span>
         <h2 class="section-title">Infractions documentées</h2>
@@ -235,7 +235,7 @@ get_header(); ?>
 
   <!-- Statut dossiers ARCOM -->
   <section class="section">
-    <div class="container container--narrow">
+    <div class="wrap wrap--sm">
       <div class="section-header">
         <span class="section-tag">Suivi</span>
         <h2 class="section-title">Statut des dossiers transmis à l'ARCOM</h2>

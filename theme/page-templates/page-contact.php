@@ -5,7 +5,7 @@
 get_header(); ?>
 
 <div class="page-hero">
-  <div class="container">
+  <div class="wrap">
     <p class="page-hero-tag">Contact</p>
     <h1>Contactez l'OCA</h1>
     <p>Citoyens, journalistes, médias, chercheurs — nous répondons à tous les messages.</p>
@@ -16,7 +16,7 @@ get_header(); ?>
 <main id="primary">
 
   <section class="section">
-    <div class="container">
+    <div class="wrap">
       <div style="display:grid; grid-template-columns:1fr 340px; gap:3rem; align-items:start;">
 
         <!-- Formulaire -->
@@ -98,7 +98,7 @@ get_header(); ?>
 
   <!-- Newsletter -->
   <section class="section section--gray">
-    <div class="container container--narrow" style="text-align:center;">
+    <div class="wrap wrap--sm" style="text-align:center;">
       <span class="section-tag">Newsletter</span>
       <h2 class="section-title" style="margin:0 auto .5rem;">S'abonner à la newsletter</h2>
       <p style="color:var(--gray-400); margin-bottom:1.5rem;">Infractions de la semaine, analyses et alertes ARCOM — chaque lundi.</p>
