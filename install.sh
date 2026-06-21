@@ -131,48 +131,60 @@ rm -rf /tmp/wordpress
 info "Configuring WordPress..."
 cp "${WP_DIR}/wp-config-sample.php" "${WP_DIR}/wp-config.php"
 
-# DB credentials
-sed -i "s/database_name_here/${DB_NAME}/"   "${WP_DIR}/wp-config.php"
-sed -i "s/username_here/${DB_USER}/"         "${WP_DIR}/wp-config.php"
-sed -i "s/password_here/${DB_PASS}/"         "${WP_DIR}/wp-config.php"
-
-# Security keys (fetched from WordPress API)
+# Fetch security salts
 SALT=$(curl -sL https://api.wordpress.org/secret-key/1.1/salt/)
-# Replace the placeholder block
-PHP_SALT_BLOCK=$(cat <<'PHPEOF'
-define('AUTH_KEY',         'placeholder');
-define('SECURE_AUTH_KEY',  'placeholder');
-define('LOGGED_IN_KEY',    'placeholder');
-define('NONCE_KEY',        'placeholder');
-define('AUTH_SALT',        'placeholder');
-define('SECURE_AUTH_SALT', 'placeholder');
-define('LOGGED_IN_SALT',   'placeholder');
-define('NONCE_SALT',       'placeholder');
-PHPEOF
-)
-python3 - "${WP_DIR}/wp-config.php" "$SALT" <<'PYEOF'
-import sys, re
-path, salt = sys.argv[1], sys.argv[2]
+
+# Pass everything via env vars so special characters in passwords are safe
+WP_CFG_PATH="$WP_DIR/wp-config.php" \
+WP_DB_NAME="$DB_NAME" \
+WP_DB_USER="$DB_USER" \
+WP_DB_PASS="$DB_PASS" \
+WP_DOMAIN="$DOMAIN" \
+WP_SALT="$SALT" \
+python3 <<'PYEOF'
+import os, re
+
+path    = os.environ['WP_CFG_PATH']
+db_name = os.environ['WP_DB_NAME']
+db_user = os.environ['WP_DB_USER']
+db_pass = os.environ['WP_DB_PASS']
+domain  = os.environ['WP_DOMAIN']
+salt    = os.environ['WP_SALT']
+
 with open(path) as f:
-    content = f.read()
-pattern = r"define\( *'AUTH_KEY'.*?define\( *'NONCE_SALT'[^;]*;"
-content = re.sub(pattern, salt.strip(), content, flags=re.DOTALL)
-with open(path, 'w') as f:
-    f.write(content)
-PYEOF
+    c = f.read()
 
-# HTTPS / table prefix
-sed -i "s/\$table_prefix = 'wp_';/\$table_prefix = 'oca_';/" "${WP_DIR}/wp-config.php"
-cat >> "${WP_DIR}/wp-config.php" <<'PHPEOF'
+c = c.replace('database_name_here', db_name)
+c = c.replace('username_here',      db_user)
+c = c.replace('password_here',      db_pass)
+# Use TCP so MariaDB doesn't need socket path resolution
+c = c.replace("'DB_HOST', 'localhost'", "'DB_HOST', '127.0.0.1'")
 
-define('WP_HOME',    'https://__DOMAIN__');
-define('WP_SITEURL', 'https://__DOMAIN__');
+# Inject salts
+c = re.sub(
+    r"define\( *'AUTH_KEY'.*?define\( *'NONCE_SALT'[^;]*;",
+    salt.strip(), c, flags=re.DOTALL
+)
+
+# Table prefix
+c = c.replace("$table_prefix = 'wp_';", "$table_prefix = 'oca_';")
+
+# HTTPS / siteurl constants (appended before closing PHP tag or at end)
+extra = f"""
+define('WP_HOME',    'https://{domain}');
+define('WP_SITEURL', 'https://{domain}');
 define('FORCE_SSL_ADMIN', true);
-if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {{
     $_SERVER['HTTPS'] = 'on';
-}
-PHPEOF
-sed -i "s|__DOMAIN__|${DOMAIN}|g" "${WP_DIR}/wp-config.php"
+}}
+"""
+c = c.replace("/* That's all", extra + "\n/* That's all")
+
+with open(path, 'w') as f:
+    f.write(c)
+
+print("wp-config.php written successfully")
+PYEOF
 
 # Install OCA theme
 info "Installing OCA theme..."
