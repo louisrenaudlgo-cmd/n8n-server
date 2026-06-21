@@ -23,8 +23,7 @@ require_root() {
 }
 
 generate_password() {
-  # dd avoids SIGPIPE from head closing the urandom pipe under set -euo pipefail
-  tr -dc 'A-Za-z0-9!@#%^' < /dev/urandom | dd bs=1 count=24 2>/dev/null
+  openssl rand -base64 18 | tr -d '/+='
 }
 
 # ── Main ──────────────────────────────────────────────────────────────────────
