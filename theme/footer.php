@@ -1,63 +1,78 @@
-<footer id="colophon" class="site-footer">
+<footer id="colophon">
+  <div class="container">
+    <div class="footer-top">
 
-  <div class="footer-widgets">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <?php get_template_part('template-parts/logo'); ?>
+        <p>
+          Association loi 1901 de veille citoyenne sur la régulation audiovisuelle française.
+          Indépendant, transparent, sans publicité.
+        </p>
+        <div class="social-links" style="margin-top:1.25rem;">
+          <a href="#" class="social-link" aria-label="Twitter/X" target="_blank" rel="noopener">𝕏</a>
+          <a href="#" class="social-link" aria-label="LinkedIn"  target="_blank" rel="noopener">in</a>
+          <a href="#" class="social-link" aria-label="Mastodon"  target="_blank" rel="noopener">🐘</a>
+        </div>
+      </div>
 
-    <div class="footer-widget">
-      <h4><?php bloginfo('name'); ?></h4>
-      <p style="font-size:.88rem; line-height:1.6; color:rgba(255,255,255,.65);">
-        <?php bloginfo('description'); ?>
-      </p>
+      <!-- Nav -->
+      <div class="footer-col">
+        <h5>L'OCA</h5>
+        <ul>
+          <li><a href="<?php echo esc_url(home_url('/association')); ?>">Notre mission</a></li>
+          <li><a href="<?php echo esc_url(home_url('/association')); ?>#bureau">Le bureau</a></li>
+          <li><a href="<?php echo esc_url(home_url('/association')); ?>#documents">Documents PDF</a></li>
+          <li><a href="<?php echo esc_url(home_url('/nous-soutenir')); ?>">Adhérer</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Nos actions</h5>
+        <ul>
+          <li><a href="<?php echo esc_url(home_url('/nos-actions/comprendre')); ?>">Comprendre l'ARCOM</a></li>
+          <li><a href="<?php echo esc_url(home_url('/nos-actions/comprendre')); ?>#carte-tnt">Carte TNT</a></li>
+          <li><a href="<?php echo esc_url(home_url('/nos-actions/signaler')); ?>">Signalements</a></li>
+          <li><a href="<?php echo esc_url(home_url('/nos-actions/comprendre')); ?>#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <p class="footer-address">
+          OCA — Observatoire Citoyen<br>
+          de l'Audiovisuel<br>
+          9 rue du comte Even<br>
+          29260 Lesneven
+        </p>
+        <div style="margin-top:.75rem;">
+          <a href="mailto:contact@observatoire-citoyen-de-l-audiovisuel.fr"
+             style="font-size:.78rem; color:var(--cyan);">
+            contact@oca.fr
+          </a>
+        </div>
+        <div>
+          <a href="mailto:presse@observatoire-citoyen-de-l-audiovisuel.fr"
+             style="font-size:.78rem; color:rgba(255,255,255,.4);">
+            presse@oca.fr
+          </a>
+        </div>
+      </div>
+
     </div>
-
-    <?php if (is_active_sidebar('footer-1')): ?>
-    <div class="footer-widget">
-      <?php dynamic_sidebar('footer-1'); ?>
-    </div>
-    <?php endif; ?>
-
-    <?php if (is_active_sidebar('footer-2')): ?>
-    <div class="footer-widget">
-      <?php dynamic_sidebar('footer-2'); ?>
-    </div>
-    <?php endif; ?>
-
-    <?php if (is_active_sidebar('footer-3')): ?>
-    <div class="footer-widget">
-      <?php dynamic_sidebar('footer-3'); ?>
-    </div>
-    <?php endif; ?>
-
-    <?php if (has_nav_menu('footer-1')): ?>
-    <div class="footer-widget">
-      <h4><?php esc_html_e('Liens utiles', 'oca-theme'); ?></h4>
-      <?php wp_nav_menu([
-        'theme_location' => 'footer-1',
-        'container'      => false,
-        'depth'          => 1,
-        'fallback_cb'    => false,
-      ]); ?>
-    </div>
-    <?php endif; ?>
-
-  </div><!-- .footer-widgets -->
-
-  <div class="footer-bottom">
-    <span>
-      &copy; <?php echo date('Y'); ?>
-      <a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a>
-    </span>
-    <span>·</span>
-    <?php wp_nav_menu([
-      'theme_location' => 'footer-2',
-      'container'      => false,
-      'depth'          => 1,
-      'fallback_cb'    => false,
-      'link_before'    => '',
-      'link_after'     => '',
-    ]); ?>
   </div>
 
-</footer><!-- #colophon -->
+  <div class="footer-bottom">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; width:100%;">
+      <span>&copy; <?php echo date('Y'); ?> Observatoire Citoyen de l'Audiovisuel — Association loi 1901</span>
+      <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
+        <a href="#">Mentions légales</a>
+        <a href="#">Politique de confidentialité</a>
+        <a href="<?php echo esc_url(home_url('/contact')); ?>#presse">Presse</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <?php wp_footer(); ?>
 </body>
