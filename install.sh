@@ -76,8 +76,10 @@ systemctl start mariadb
 info "Configuring database..."
 mysql -u root <<SQL
 CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
+CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost'  IDENTIFIED BY '${DB_PASS}';
+CREATE USER IF NOT EXISTS '${DB_USER}'@'127.0.0.1' IDENTIFIED BY '${DB_PASS}';
 GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'localhost';
+GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'127.0.0.1';
 FLUSH PRIVILEGES;
 SQL
 
@@ -157,8 +159,7 @@ with open(path) as f:
 c = c.replace('database_name_here', db_name)
 c = c.replace('username_here',      db_user)
 c = c.replace('password_here',      db_pass)
-# Use TCP so MariaDB doesn't need socket path resolution
-c = c.replace("'DB_HOST', 'localhost'", "'DB_HOST', '127.0.0.1'")
+# Keep localhost (Unix socket) – grant covers both localhost and 127.0.0.1
 
 # Inject salts
 c = re.sub(
