@@ -85,14 +85,32 @@ SQL
 info "Installing Nginx..."
 apt-get install -y -qq nginx
 
-# Copy vhost config (from repo)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NGINX_CONF="/etc/nginx/sites-available/${DOMAIN}"
 
-cp "${SCRIPT_DIR}/nginx/${DOMAIN}.conf" "$NGINX_CONF"
-sed -i "s|__PHP_VER__|${PHP_VER}|g" "$NGINX_CONF"
-sed -i "s|__WP_DIR__|${WP_DIR}|g"   "$NGINX_CONF"
-sed -i "s|__DOMAIN__|${DOMAIN}|g"   "$NGINX_CONF"
+# Deploy HTTP-only config first (certs don't exist yet – Certbot adds HTTPS)
+cat > "$NGINX_CONF" <<NGINXEOF
+server {
+    listen 80;
+    listen [::]:80;
+    server_name ${DOMAIN} www.${DOMAIN};
+    root ${WP_DIR};
+    index index.php;
+
+    location / {
+        try_files \$uri \$uri/ /index.php?\$args;
+    }
+
+    location ~ \.php$ {
+        include        snippets/fastcgi-php.conf;
+        fastcgi_pass   unix:/run/php/php${PHP_VER}-fpm.sock;
+        fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+
+    location ~ /\. { deny all; }
+}
+NGINXEOF
 
 ln -sf "$NGINX_CONF" "/etc/nginx/sites-enabled/${DOMAIN}"
 rm -f /etc/nginx/sites-enabled/default
@@ -199,7 +217,13 @@ certbot --nginx \
   --email "$WP_ADMIN_EMAIL" \
   --redirect
 
-systemctl reload nginx
+# Replace with hardened final config (certs now exist)
+cp "${SCRIPT_DIR}/nginx/${DOMAIN}.conf" "$NGINX_CONF"
+sed -i "s|__PHP_VER__|${PHP_VER}|g" "$NGINX_CONF"
+sed -i "s|__WP_DIR__|${WP_DIR}|g"   "$NGINX_CONF"
+sed -i "s|__DOMAIN__|${DOMAIN}|g"   "$NGINX_CONF"
+
+nginx -t && systemctl reload nginx
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 green ""
