@@ -23,7 +23,8 @@ require_root() {
 }
 
 generate_password() {
-  tr -dc 'A-Za-z0-9!@#$%^&*' </dev/urandom | head -c 24
+  # dd avoids SIGPIPE from head closing the urandom pipe under set -euo pipefail
+  tr -dc 'A-Za-z0-9!@#%^' < /dev/urandom | dd bs=1 count=24 2>/dev/null
 }
 
 # ── Main ──────────────────────────────────────────────────────────────────────
