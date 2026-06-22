@@ -14,7 +14,8 @@
 
       <h1>
         <span class="hero-num"><?php echo esc_html(get_option('oca_kpi_signalements', '65')); ?> infractions</span>
-        documentées cette semaine sur <span class="hero-chain">CNews</span>.<br>
+        documentées cette<br>
+        semaine sur <span class="hero-chain">CNews</span>.<br>
         Dossier transmis à l'ARCOM.
       </h1>
 
