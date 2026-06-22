@@ -340,13 +340,13 @@ button, input, select, textarea { font-family: var(--font); }
 /* Le .wrap limite à 1120px → texte + photo dans ce cadre */
 .hero-inner {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  min-height: 340px;
-  overflow: hidden;
+  grid-template-columns: 1fr 520px;
+  align-items: stretch;
+  height: 420px;
 }
 
 .hero-left {
-  padding: 52px 40px 48px 0;
+  padding: 40px 40px 40px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -354,18 +354,18 @@ button, input, select, textarea { font-family: var(--font); }
 }
 
 .hero-image {
-  position: relative;
-  min-height: 460px;
+  padding: 20px 0 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-image img {
-  position: absolute;
-  inset: 16px 0 16px 24px;
-  width: calc(100% - 24px);
-  height: calc(100% - 32px);
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   object-position: center center;
-  display: block;
   filter: grayscale(20%);
   border-radius: 3px;
 }
