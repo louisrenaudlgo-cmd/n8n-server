@@ -23,9 +23,8 @@
 
       <p class="hero-intro">
         <?php
-        // Texte modifiable dans Gutenberg → page Accueil → champ "Extrait"
-        $front_id = get_option('page_on_front');
-        $excerpt  = $front_id ? get_post_field('post_excerpt', $front_id) : '';
+        // Lit l'extrait de la page Accueil (éditable dans Gutenberg → panneau droit → Extrait)
+        $excerpt = get_the_excerpt(get_option('page_on_front')) ?: get_post_field('post_excerpt', get_option('page_on_front'));
         echo $excerpt
           ? esc_html($excerpt)
           : 'L\'OCA surveille les conventions audiovisuelles et documente chaque manquement avec verbatim horodaté. Parce que réguler les médias, c\'est l\'affaire de tous les citoyens.';
@@ -61,22 +60,18 @@
     <!-- Colonne droite : photo -->
     <div class="hero-image">
       <?php
-      // Photo modifiable dans Gutenberg → page Accueil → "Image à la une"
-      $front_id     = get_option('page_on_front');
-      $thumb_id     = $front_id ? get_post_thumbnail_id($front_id) : 0;
-
-      // Fallback : ancienne option oca_hero_image_id
-      if (!$thumb_id) $thumb_id = get_option('oca_hero_image_id');
-
+      // Photo : Image à la une de la page Accueil (définissable dans Gutenberg)
+      $front_id = (int) get_option('page_on_front');
+      $thumb_id = $front_id ? get_post_thumbnail_id($front_id) : 0;
+      if (!$thumb_id) $thumb_id = (int) get_option('oca_hero_image_id');
       $hero_img_url = $thumb_id
-        ? wp_get_attachment_image_url($thumb_id, 'oca-hero')
+        ? wp_get_attachment_image_url($thumb_id, 'full')
         : get_template_directory_uri() . '/assets/images/hero-placeholder.svg';
+      $hero_img_alt = $thumb_id
+        ? esc_attr(get_post_meta($thumb_id, '_wp_attachment_image_alt', true))
+        : 'Photo hero OCA';
       ?>
-      <img
-        src="<?php echo esc_url($hero_img_url); ?>"
-        alt="<?php echo $thumb_id ? esc_attr(get_post_meta($thumb_id, '_wp_attachment_image_alt', true)) : 'Photo hero OCA'; ?>"
-        loading="eager"
-      >
+      <img src="<?php echo esc_url($hero_img_url); ?>" alt="<?php echo $hero_img_alt; ?>" loading="eager">
     </div>
 
     </div><!-- .hero-inner -->
