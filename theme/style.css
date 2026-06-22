@@ -330,12 +330,57 @@ button, input, select, textarea { font-family: var(--font); }
 .btn-sm { padding: 6px 12px; font-size: 12px; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   HERO  (fond blanc, padding 52px 32px 44px)
+   HERO  — grid 2 col (texte | photo)
 ═══════════════════════════════════════════════════════════════════════════ */
 .hero {
-  background: var(--bg);
-  padding: 52px 0 44px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  min-height: 340px;
+  overflow: hidden;
   border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.hero-left {
+  padding: 52px 40px 48px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* contraindre la largeur max à 1fr du wrap global (≈700px) */
+  max-width: calc(1120px - 420px);
+}
+
+/* Pour que le hero ne dépasse pas 1120px au centre
+   mais que la photo aille jusqu'au bord */
+@media (min-width: 1120px) {
+  .hero {
+    grid-template-columns: 1fr 420px;
+  }
+  .hero-left {
+    padding-left: max(32px, calc((100vw - 1120px) / 2 + 32px));
+  }
+}
+
+.hero-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: grayscale(20%);
+}
+
+.hero-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(255,255,255,.15) 0%, transparent 40%);
+  pointer-events: none;
 }
 
 .hero-eyebrow {
@@ -357,7 +402,6 @@ button, input, select, textarea { font-family: var(--font); }
   line-height: 1.22;
   color: var(--text);
   margin-bottom: 18px;
-  max-width: 700px;
   letter-spacing: -.01em;
 }
 .hero h1 .hero-num   { color: var(--red); }
@@ -1050,7 +1094,9 @@ button, input, select, textarea { font-family: var(--font); }
   }
 
   .wrap { padding: 0 16px; }
-  .hero { padding: 32px 0 28px; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 32px 16px 28px; max-width: 100%; }
+  .hero-image { display: none; }
   .hero h1 { font-size: 24px; }
   .stats-row { flex-direction: column; max-width: 100%; }
   .stat-block { border-right: none; border-bottom: 1px solid var(--border); }

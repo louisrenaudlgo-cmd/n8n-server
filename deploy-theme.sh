@@ -102,6 +102,26 @@ $WP option update oca_kpi_updated      "21 juin 2026"
 $WP option update oca_semaine_label    "Semaine 25 — juin 2026"
 $WP option update oca_alert_ticker     "CNews : 65 infractions documentées cette semaine — dossier transmis à l'ARCOM"
 
+echo "▶ Import image hero…"
+HERO_SRC="${THEME_DST}/assets/images/hero.jpg"
+if [ -f "$HERO_SRC" ]; then
+  existing_hero=$($WP option get oca_hero_image_id 2>/dev/null || echo "")
+  if [ -z "$existing_hero" ] || ! $WP post get "$existing_hero" --field=ID 2>/dev/null; then
+    hero_id=$($WP media import "$HERO_SRC" \
+      --title="Hero OCA — conférence de presse" \
+      --alt="Journaliste lors d'une conférence de presse audiovisuelle" \
+      --porcelain 2>/dev/null || echo "")
+    if [ -n "$hero_id" ]; then
+      $WP option update oca_hero_image_id "$hero_id"
+      echo "  Image hero importée (ID $hero_id)"
+    fi
+  else
+    echo "  Image hero déjà importée (ID $existing_hero)"
+  fi
+else
+  echo "  ⚠ hero.jpg absent de ${THEME_DST}/assets/images/ — image ignorée"
+fi
+
 echo "▶ Flush des règles de réécriture…"
 $WP rewrite flush
 

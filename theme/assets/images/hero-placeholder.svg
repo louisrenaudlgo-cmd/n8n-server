@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="680" viewBox="0 0 840 680">
+  <rect width="840" height="680" fill="#E8E4DF"/>
+  <rect x="0" y="0" width="420" height="680" fill="#D8D4CF"/>
+  <circle cx="420" cy="280" r="80" fill="#C0C0C0"/>
+  <rect x="320" y="380" width="200" height="120" rx="4" fill="#B0B0B0"/>
+  <text x="420" y="560" text-anchor="middle" font-family="system-ui" font-size="14" fill="#888">
+    Remplacer par hero.jpg
+  </text>
+</svg>

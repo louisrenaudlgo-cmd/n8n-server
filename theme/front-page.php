@@ -4,7 +4,9 @@
 
   <!-- ═══ HERO ═══════════════════════════════════════════════════════════════ -->
   <section class="hero">
-    <div class="wrap">
+
+    <!-- Colonne gauche : contenu texte -->
+    <div class="hero-left">
 
       <p class="hero-eyebrow">
         <?php echo esc_html(get_option('oca_semaine_label', 'Semaine 25 — juin 2026')); ?>
@@ -46,6 +48,29 @@
       </div>
 
     </div>
+
+    <!-- Colonne droite : photo -->
+    <div class="hero-image">
+      <?php
+      $hero_img_id  = get_option('oca_hero_image_id');
+      $hero_img_url = false;
+      if ($hero_img_id) {
+        $hero_img_url = wp_get_attachment_image_url($hero_img_id, 'full');
+      }
+      if (!$hero_img_url) {
+        $jpg = get_template_directory() . '/assets/images/hero.jpg';
+        $hero_img_url = file_exists($jpg)
+          ? get_template_directory_uri() . '/assets/images/hero.jpg'
+          : get_template_directory_uri() . '/assets/images/hero-placeholder.svg';
+      }
+      ?>
+      <img
+        src="<?php echo esc_url($hero_img_url); ?>"
+        alt="Journaliste lors d'une conférence de presse audiovisuelle"
+        loading="eager"
+      >
+    </div>
+
   </section>
 
   <!-- ═══ SIGNALEMENTS ════════════════════════════════════════════════════════ -->
