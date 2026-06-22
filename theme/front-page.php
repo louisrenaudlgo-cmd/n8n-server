@@ -4,6 +4,8 @@
 
   <!-- ═══ HERO ═══════════════════════════════════════════════════════════════ -->
   <section class="hero">
+   <div class="wrap">
+    <div class="hero-inner">
 
     <!-- Colonne gauche : contenu texte -->
     <div class="hero-left">
@@ -72,6 +74,8 @@
       >
     </div>
 
+    </div><!-- .hero-inner -->
+   </div><!-- .wrap -->
   </section>
 
   <!-- ═══ SIGNALEMENTS ════════════════════════════════════════════════════════ -->
