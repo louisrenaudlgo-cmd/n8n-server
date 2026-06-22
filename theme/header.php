@@ -11,21 +11,23 @@
 <a class="skip-link screen-reader-text" href="#primary">Aller au contenu</a>
 
 <!-- ── TOPBAR ─────────────────────────────────────────────────────────────── -->
-<div class="topbar">
+<div class="topbar" role="banner">
   <div class="wrap topbar-inner">
-    <?php $ticker = get_option('oca_alert_ticker', ''); ?>
+
     <div class="topbar-alert">
-      <span class="topbar-dot"></span>
-      <?php if ($ticker): ?>
-        <span><?php echo esc_html($ticker); ?></span>
-      <?php else: ?>
-        <span>Observatoire Citoyen de l'Audiovisuel — surveillance des conventions ARCOM</span>
-      <?php endif; ?>
+      <span class="topbar-dot" aria-hidden="true"></span>
+      <span class="topbar-badge">Alerte</span>
+      <?php
+      $ticker = get_option('oca_alert_ticker', 'Surveillance des conventions audiovisuelles — ARCOM');
+      echo '<span>' . esc_html($ticker) . '</span>';
+      ?>
     </div>
+
     <div class="topbar-links">
+      <a href="<?php echo esc_url(home_url('/contact')); ?>#presse">Espace presse</a>
       <a href="<?php echo esc_url(home_url('/contact')); ?>">Contact</a>
-      <a href="<?php echo esc_url(home_url('/nous-soutenir')); ?>">Nous soutenir</a>
     </div>
+
   </div>
 </div>
 
@@ -35,7 +37,9 @@
     <div class="site-nav-inner">
 
       <a class="site-logo" href="<?php echo esc_url(home_url('/')); ?>" aria-label="OCA — Accueil">
-        <?php get_template_part('template-parts/logo'); ?>
+        <span class="logo-abbr">OCA</span>
+        <span class="logo-sep" aria-hidden="true"></span>
+        <span class="logo-sub">Observatoire Citoyen<br>de l'Audiovisuel</span>
       </a>
 
       <nav id="site-navigation" class="primary-nav" aria-label="Navigation principale">
@@ -53,14 +57,14 @@
           Nous soutenir
         </a>
         <button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false" aria-label="Ouvrir le menu">
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
-            <rect y="0"  width="20" height="2" rx="1" fill="currentColor"/>
-            <rect y="6"  width="20" height="2" rx="1" fill="currentColor"/>
-            <rect y="12" width="20" height="2" rx="1" fill="currentColor"/>
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none" aria-hidden="true">
+            <rect y="0"  width="18" height="1.5" rx="1" fill="currentColor"/>
+            <rect y="5"  width="18" height="1.5" rx="1" fill="currentColor"/>
+            <rect y="10" width="18" height="1.5" rx="1" fill="currentColor"/>
           </svg>
         </button>
       </div>
 
     </div>
-  </div><!-- .wrap -->
+  </div>
 </header>

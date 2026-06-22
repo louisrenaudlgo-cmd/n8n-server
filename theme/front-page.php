@@ -2,7 +2,7 @@
 
 <main id="primary">
 
-  <!-- ── HERO ──────────────────────────────────────────────────────────────── -->
+  <!-- ═══ HERO ═══════════════════════════════════════════════════════════════ -->
   <section class="hero">
     <div class="wrap">
 
@@ -11,28 +11,28 @@
       </p>
 
       <h1>
-        <span class="hero-num"><?php echo esc_html(get_option('oca_kpi_signalements','65')); ?> infractions</span>
+        <span class="hero-num"><?php echo esc_html(get_option('oca_kpi_signalements', '65')); ?> infractions</span>
         documentées cette semaine sur <span class="hero-chain">CNews</span>.<br>
         Dossier transmis à l'ARCOM.
       </h1>
 
       <p class="hero-intro">
-        L'OCA surveille les conventions audiovisuelles et documente chaque manquement.
-        Parce que réguler les médias, c'est l'affaire de tous les citoyens.
+        L'OCA surveille les conventions audiovisuelles et documente chaque manquement
+        avec verbatim horodaté. Parce que réguler les médias, c'est l'affaire de tous les citoyens.
       </p>
 
-      <div class="hero-stats">
+      <div class="stats-row">
         <div class="stat-block">
-          <div class="stat-value"><?php echo esc_html(get_option('oca_kpi_signalements','65')); ?></div>
-          <div class="stat-label">Signalements cette semaine</div>
+          <span class="stat-num red"><?php echo esc_html(get_option('oca_kpi_signalements', '65')); ?></span>
+          <span class="stat-label">Signalements cette semaine</span>
         </div>
         <div class="stat-block">
-          <div class="stat-value"><?php echo esc_html(get_option('oca_kpi_emissions','23')); ?></div>
-          <div class="stat-label">Émissions concernées</div>
+          <span class="stat-num"><?php echo esc_html(get_option('oca_kpi_emissions', '23')); ?></span>
+          <span class="stat-label">Émissions concernées</span>
         </div>
         <div class="stat-block">
-          <div class="stat-value"><?php echo esc_html(get_option('oca_kpi_transmissions','12')); ?></div>
-          <div class="stat-label">Transmissions à l'ARCOM</div>
+          <span class="stat-num"><?php echo esc_html(get_option('oca_kpi_transmissions', '12')); ?></span>
+          <span class="stat-label">Transmis à l'ARCOM</span>
         </div>
       </div>
 
@@ -40,7 +40,7 @@
         <a href="<?php echo esc_url(home_url('/nos-actions/signaler')); ?>" class="btn btn-primary">
           Voir les signalements
         </a>
-        <a href="<?php echo esc_url(home_url('/nos-actions/comprendre')); ?>" class="btn btn-secondary">
+        <a href="<?php echo esc_url(home_url('/nos-actions/comprendre')); ?>" class="btn btn-outline">
           Comprendre l'ARCOM
         </a>
       </div>
@@ -48,35 +48,49 @@
     </div>
   </section>
 
-  <!-- ── DERNIERS SIGNALEMENTS ─────────────────────────────────────────────── -->
+  <!-- ═══ SIGNALEMENTS ════════════════════════════════════════════════════════ -->
   <section class="section">
     <div class="wrap">
 
-      <div class="section-header">
-        <h2>Derniers signalements</h2>
-        <a href="<?php echo esc_url(home_url('/nos-actions/signaler')); ?>" class="section-link">
-          Tous les signalements →
-        </a>
+      <div class="section-hdr">
+        <span class="section-hdr-label">Derniers signalements</span>
+        <a href="<?php echo esc_url(home_url('/nos-actions/signaler')); ?>" class="section-hdr-link">Tous →</a>
       </div>
 
       <?php
       $infractions = new WP_Query([
-          'post_type'      => 'infraction',
-          'posts_per_page' => 5,
-          'post_status'    => 'publish',
+        'post_type'      => 'infraction',
+        'posts_per_page' => 6,
+        'post_status'    => 'publish',
       ]);
+
+      $type_classes = [
+        'non-contradiction' => 'tag--red',
+        'pluralisme'        => 'tag--blue',
+        'desinformation'    => 'tag--grey',
+        'décision'          => 'tag--blue',
+        'alerte'            => 'tag--red',
+      ];
+
       if ($infractions->have_posts()):
         while ($infractions->have_posts()): $infractions->the_post();
           $chaines = get_the_terms(get_the_ID(), 'chaine');
           $types   = get_the_terms(get_the_ID(), 'type_infraction');
+          $type_class = 'tag--grey';
+          if ($types) {
+            $slug = sanitize_title($types[0]->name);
+            foreach ($type_classes as $k => $v) {
+              if (str_contains($slug, $k)) { $type_class = $v; break; }
+            }
+          }
       ?>
       <div class="infraction-row">
         <span class="infraction-date"><?php echo get_the_date('d/m/Y'); ?></span>
         <?php if ($chaines): ?>
-          <span class="tag-pill"><?php echo esc_html($chaines[0]->name); ?></span>
+          <span class="tag tag--blue"><?php echo esc_html($chaines[0]->name); ?></span>
         <?php endif; ?>
         <?php if ($types): ?>
-          <span class="tag-pill tag-pill--type"><?php echo esc_html($types[0]->name); ?></span>
+          <span class="tag <?php echo esc_attr($type_class); ?>"><?php echo esc_html($types[0]->name); ?></span>
         <?php endif; ?>
         <a href="<?php the_permalink(); ?>" class="infraction-title"><?php the_title(); ?></a>
       </div>
@@ -86,10 +100,10 @@
       ?>
       <div class="infraction-row">
         <span class="infraction-date">21/06/2026</span>
-        <span class="tag-pill">CNews</span>
-        <span class="tag-pill tag-pill--type">Non-contradiction</span>
-        <span class="infraction-title" style="color:var(--gray-400); font-style:italic;">
-          Exemple — à saisir depuis wp-admin → Infractions → Ajouter
+        <span class="tag tag--blue">CNews</span>
+        <span class="tag tag--red">Non-contradiction</span>
+        <span class="infraction-title" style="color:var(--text-4); font-style:italic;">
+          À renseigner depuis wp-admin → Infractions → Ajouter
         </span>
       </div>
       <?php endif; ?>
@@ -97,38 +111,37 @@
     </div>
   </section>
 
-  <!-- ── CHAÎNES SOUS SURVEILLANCE ────────────────────────────────────────── -->
-  <section class="section section--gray">
+  <!-- ═══ CHAÎNES ════════════════════════════════════════════════════════════ -->
+  <section class="section">
     <div class="wrap">
 
-      <div class="section-header">
-        <h2>Chaînes sous surveillance</h2>
-        <a href="<?php echo esc_url(home_url('/nos-actions/comprendre')); ?>" class="section-link">
-          Carte TNT complète →
-        </a>
+      <div class="section-hdr">
+        <span class="section-hdr-label">Chaînes sous surveillance</span>
+        <a href="<?php echo esc_url(home_url('/nos-actions/comprendre')); ?>#carte-tnt" class="section-hdr-link">Carte TNT →</a>
       </div>
 
       <div class="chaines-grid">
         <?php
-        $chaines_preview = [
-            ['nom'=>'CNews',    'groupe'=>'Vivendi / Bolloré', 'alert'=>true,  'part'=>'3.1%'],
-            ['nom'=>'C8',       'groupe'=>'Vivendi / Bolloré', 'alert'=>true,  'part'=>'3.0%'],
-            ['nom'=>'TF1',      'groupe'=>'Bouygues',          'alert'=>false, 'part'=>'20.2%'],
-            ['nom'=>'M6',       'groupe'=>'Bertelsmann',        'alert'=>false, 'part'=>'9.8%'],
-            ['nom'=>'France 2', 'groupe'=>'France Télévisions', 'alert'=>false, 'part'=>'13.4%'],
-            ['nom'=>'BFM TV',   'groupe'=>'Altice / SFR',       'alert'=>false, 'part'=>'3.2%'],
+        $chaines = [
+          ['nom' => 'CNews',    'prop' => 'Vivendi / Bolloré', 'statut' => 'surv', 'aud' => '3.1 %'],
+          ['nom' => 'C8',       'prop' => 'Vivendi / Bolloré', 'statut' => 'surv', 'aud' => '3.0 %'],
+          ['nom' => 'TF1',      'prop' => 'Bouygues',          'statut' => 'obs',  'aud' => '20.2 %'],
+          ['nom' => 'M6',       'prop' => 'Bertelsmann',        'statut' => 'obs',  'aud' => '9.8 %'],
+          ['nom' => 'France 2', 'prop' => 'France Télévisions', 'statut' => 'obs',  'aud' => '13.4 %'],
+          ['nom' => 'BFM TV',   'prop' => 'Altice / SFR',       'statut' => 'obs',  'aud' => '3.2 %'],
         ];
-        foreach ($chaines_preview as $ch):
+        foreach ($chaines as $ch):
+          $active = $ch['statut'] === 'surv';
         ?>
-        <div class="chaine-card<?php echo $ch['alert'] ? ' chaine-card--alert' : ''; ?>">
-          <div class="chaine-card-top">
-            <strong><?php echo esc_html($ch['nom']); ?></strong>
-            <?php if ($ch['alert']): ?>
-              <span class="tag-pill tag-pill--alert">Surveillance</span>
-            <?php endif; ?>
-          </div>
-          <div class="chaine-card-groupe"><?php echo esc_html($ch['groupe']); ?></div>
-          <div class="chaine-card-part"><?php echo esc_html($ch['part']); ?> d'audience</div>
+        <div class="chaine-card<?php echo $active ? ' active' : ''; ?>">
+          <span class="chaine-card-nom"><?php echo esc_html($ch['nom']); ?></span>
+          <span class="chaine-card-prop"><?php echo esc_html($ch['prop']); ?></span>
+          <?php if ($active): ?>
+            <span class="badge-surv">Surveillance</span>
+          <?php else: ?>
+            <span class="badge-obs">Observée</span>
+          <?php endif; ?>
+          <span class="chaine-card-aud"><?php echo esc_html($ch['aud']); ?> d'audience</span>
         </div>
         <?php endforeach; ?>
       </div>
@@ -136,28 +149,28 @@
     </div>
   </section>
 
-  <!-- ── QUI SOMMES-NOUS ──────────────────────────────────────────────────── -->
+  <!-- ═══ PROFILS ════════════════════════════════════════════════════════════ -->
   <section class="section">
     <div class="wrap">
 
-      <div class="section-header">
-        <h2>Qui sommes-nous ?</h2>
+      <div class="section-hdr">
+        <span class="section-hdr-label">Qui sommes-nous ?</span>
       </div>
 
       <div class="profils-grid">
         <?php
         $profils = [
-            ['titre'=>'Citoyen curieux',    'texte'=>'Comprendre comment fonctionne la régulation des médias, qui décide et pourquoi c\'est important pour la démocratie.', 'lien'=>home_url('/nos-actions/comprendre'), 'label'=>'Comprendre l\'ARCOM'],
-            ['titre'=>'Journaliste / Média', 'texte'=>'Accéder à nos données sourcées, notre méthodologie et contacter notre responsable presse pour toute demande.',         'lien'=>home_url('/contact'),                'label'=>'Contact presse'],
-            ['titre'=>'Décideur / ARCOM',   'texte'=>'Consulter nos dossiers documentés avec références légales précises et numéros de conventions audiovisuelles.',          'lien'=>home_url('/nos-actions/signaler'),   'label'=>'Nos dossiers'],
+          ['titre' => 'Citoyen curieux',    'desc' => 'Comprendre comment fonctionne la régulation des médias, qui décide et pourquoi c\'est essentiel pour la démocratie.',  'lien' => home_url('/nos-actions/comprendre'), 'label' => 'Comprendre l\'ARCOM'],
+          ['titre' => 'Journaliste / Média', 'desc' => 'Accéder à nos données sourcées, notre méthodologie et contacter notre responsable presse pour toute demande d\'interview.', 'lien' => home_url('/contact'),                'label' => 'Espace presse'],
+          ['titre' => 'Décideur / ARCOM',   'desc' => 'Consulter nos dossiers documentés avec références légales précises et numéros de conventions audiovisuelles.',              'lien' => home_url('/nos-actions/signaler'),   'label' => 'Nos dossiers'],
         ];
         foreach ($profils as $p):
         ?>
         <div class="profil-card">
           <h3><?php echo esc_html($p['titre']); ?></h3>
-          <p><?php echo esc_html($p['texte']); ?></p>
-          <a href="<?php echo esc_url($p['lien']); ?>" class="btn btn-primary btn-sm">
-            <?php echo esc_html($p['label']); ?>
+          <p><?php echo esc_html($p['desc']); ?></p>
+          <a href="<?php echo esc_url($p['lien']); ?>" class="profil-link">
+            <?php echo esc_html($p['label']); ?> →
           </a>
         </div>
         <?php endforeach; ?>
@@ -166,15 +179,31 @@
     </div>
   </section>
 
-  <!-- ── NEWSLETTER ───────────────────────────────────────────────────────── -->
-  <section class="section section--gray">
-    <div class="wrap wrap--sm">
-      <div class="newsletter-block">
-        <h2>Newsletter hebdomadaire</h2>
-        <p>Chaque semaine : top infractions, analyse, référence convention ARCOM. Aucune publicité. Indépendant.</p>
-        <?php echo do_shortcode('[mailpoet_form id="1"]'); ?>
-        <p class="newsletter-legal">Désabonnement à tout moment. Données hébergées en France.</p>
+  <!-- ═══ NEWSLETTER ══════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="wrap">
+
+      <div class="newsletter-row">
+
+        <div class="newsletter-left">
+          <span class="section-hdr-label" style="display:block; margin-bottom:8px;">Newsletter hebdomadaire</span>
+          <h2>Recevoir le bulletin de l'OCA</h2>
+          <p>Chaque semaine : top infractions, analyse, référence convention ARCOM. Aucune publicité. Indépendant.</p>
+        </div>
+
+        <div class="newsletter-right">
+          <?php echo do_shortcode('[mailpoet_form id="1"]'); ?>
+          <?php if (!shortcode_exists('mailpoet_form')): ?>
+          <form class="newsletter-form" action="#" method="post">
+            <input type="email" name="email" placeholder="votre@email.fr" required>
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+          </form>
+          <p class="newsletter-note">Désabonnement à tout moment. Données hébergées en France.</p>
+          <?php endif; ?>
+        </div>
+
       </div>
+
     </div>
   </section>
 
