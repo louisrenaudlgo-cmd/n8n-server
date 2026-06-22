@@ -22,8 +22,14 @@
       </h1>
 
       <p class="hero-intro">
-        L'OCA surveille les conventions audiovisuelles et documente chaque manquement
-        avec verbatim horodaté. Parce que réguler les médias, c'est l'affaire de tous les citoyens.
+        <?php
+        // Texte modifiable dans Gutenberg → page Accueil → champ "Extrait"
+        $front_id = get_option('page_on_front');
+        $excerpt  = $front_id ? get_post_field('post_excerpt', $front_id) : '';
+        echo $excerpt
+          ? esc_html($excerpt)
+          : 'L\'OCA surveille les conventions audiovisuelles et documente chaque manquement avec verbatim horodaté. Parce que réguler les médias, c\'est l\'affaire de tous les citoyens.';
+        ?>
       </p>
 
       <div class="stats-row">
@@ -55,21 +61,20 @@
     <!-- Colonne droite : photo -->
     <div class="hero-image">
       <?php
-      $hero_img_id  = get_option('oca_hero_image_id');
-      $hero_img_url = false;
-      if ($hero_img_id) {
-        $hero_img_url = wp_get_attachment_image_url($hero_img_id, 'full');
-      }
-      if (!$hero_img_url) {
-        $jpg = get_template_directory() . '/assets/images/hero.jpg';
-        $hero_img_url = file_exists($jpg)
-          ? get_template_directory_uri() . '/assets/images/hero.jpg'
-          : get_template_directory_uri() . '/assets/images/hero-placeholder.svg';
-      }
+      // Photo modifiable dans Gutenberg → page Accueil → "Image à la une"
+      $front_id     = get_option('page_on_front');
+      $thumb_id     = $front_id ? get_post_thumbnail_id($front_id) : 0;
+
+      // Fallback : ancienne option oca_hero_image_id
+      if (!$thumb_id) $thumb_id = get_option('oca_hero_image_id');
+
+      $hero_img_url = $thumb_id
+        ? wp_get_attachment_image_url($thumb_id, 'oca-hero')
+        : get_template_directory_uri() . '/assets/images/hero-placeholder.svg';
       ?>
       <img
         src="<?php echo esc_url($hero_img_url); ?>"
-        alt="Journaliste lors d'une conférence de presse audiovisuelle"
+        alt="<?php echo $thumb_id ? esc_attr(get_post_meta($thumb_id, '_wp_attachment_image_alt', true)) : 'Photo hero OCA'; ?>"
         loading="eager"
       >
     </div>

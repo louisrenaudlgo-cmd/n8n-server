@@ -14,6 +14,7 @@ function oca_setup(): void {
     add_theme_support('customize-selective-refresh-widgets');
     add_theme_support('wp-block-styles');
     add_theme_support('align-wide');
+    add_post_type_support('page', 'excerpt'); // active le champ Extrait sur les pages
 
     set_post_thumbnail_size(800, 500, true);
     add_image_size('oca-card',   640, 380, true);
