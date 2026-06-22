@@ -163,17 +163,29 @@ button, input, select, textarea { font-family: var(--font); }
   line-height: 1.3;
 }
 
-/* Nav links */
-.primary-nav {
+/* Nav links — wp_nav_menu génère <nav><ul><li>… donc on cible le <ul> */
+.primary-nav,
+.primary-nav > ul {
   display: flex;
   align-items: center;
   flex: 1;
   gap: 0;
   height: 56px;
+  list-style: none;
 }
 
-.primary-nav > li { position: relative; height: 100%; display: flex; align-items: center; }
+/* Reset ul généré par WP */
+.primary-nav > ul { flex: unset; }
 
+.primary-nav > ul > li,
+.primary-nav > li {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.primary-nav > ul > li > a,
 .primary-nav > li > a {
   display: flex;
   align-items: center;
@@ -187,6 +199,9 @@ button, input, select, textarea { font-family: var(--font); }
   white-space: nowrap;
   transition: color .13s, border-color .13s;
 }
+.primary-nav > ul > li > a:hover,
+.primary-nav > ul > li.current-menu-item > a,
+.primary-nav > ul > li.current-menu-parent > a,
 .primary-nav > li > a:hover,
 .primary-nav > li.current-menu-item > a,
 .primary-nav > li.current-menu-parent > a {
@@ -216,6 +231,7 @@ button, input, select, textarea { font-family: var(--font); }
   border-radius: var(--r-lg);
   min-width: 200px;
   padding: 4px 0;
+  list-style: none;
   opacity: 0;
   visibility: hidden;
   transform: translateY(4px);
@@ -994,7 +1010,8 @@ button, input, select, textarea { font-family: var(--font); }
   .primary-nav, .btn-soutenir { display: none; }
   .menu-toggle { display: block; }
 
-  .primary-nav.is-open {
+  .primary-nav.is-open,
+  .primary-nav.is-open > ul {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -1004,12 +1021,17 @@ button, input, select, textarea { font-family: var(--font); }
     padding: 16px;
     overflow-y: auto;
     gap: 0;
+    height: auto;
     z-index: 500;
   }
 
-  .primary-nav.is-open > li { height: auto; display: block; }
+  .primary-nav.is-open > ul { position: static; }
 
-  .primary-nav.is-open > li > a {
+  .primary-nav.is-open > li,
+  .primary-nav.is-open > ul > li { height: auto; display: block; }
+
+  .primary-nav.is-open > li > a,
+  .primary-nav.is-open > ul > li > a {
     height: auto;
     padding: 13px 4px;
     border-bottom: 1px solid var(--border-3);
