@@ -24,7 +24,8 @@
       <p class="hero-intro">
         <?php
         // Lit l'extrait de la page Accueil (éditable dans Gutenberg → panneau droit → Extrait)
-        $excerpt = get_the_excerpt(get_option('page_on_front')) ?: get_post_field('post_excerpt', get_option('page_on_front'));
+        $front_page_id = (int) get_option('page_on_front');
+        $excerpt = $front_page_id ? get_post_field('post_excerpt', $front_page_id) : '';
         echo $excerpt
           ? esc_html($excerpt)
           : 'L\'OCA surveille les conventions audiovisuelles et documente chaque manquement avec verbatim horodaté. Parce que réguler les médias, c\'est l\'affaire de tous les citoyens.';
